@@ -28,14 +28,31 @@ the \code{Queries} matrix.
 '0' indicates that the point lies exactly on the surface of the polyhedron.
 
 '-1' indicates that the point lies outside the polyhedron.
+
+'-2' (error) indicates that the polyhedron was topologically defective (e.g., had a hole)
+
+'-3' (error) indicates that the \code{Vertices} matrix didn't have three columns
+
+'-4' (error) indicates that the \code{Faces} matrix didn't have three columns
+
+'-5' (error) indicates that the \code{Faces} matrix was 0- rather than 1-offset
+
+'-6' (error) indicates that the \code{Queries} matrix didn't have three columns
 }
 \note{
 The polyhedron defined by \code{Vertices} and \code{Faces} \emph{must} be "non-leaky";
 i.e., it must define an "inside" versus "outside" and must not contain any holes.
-Running this function on a defective polyhedron \emph{will} cause R to crash.
 
 For an example of external software that could potentially be used to fix defective polyhedra,
 see, e.g., PolyMender (\url{http://www1.cse.wustl.edu/~taoju/code/polymender.htm}).
+
+Previous versions of this function would hang when there were more than two vertices very close
+to one another; this problem was discovered with a polyhedron in which there were multip;le
+duplicate vertices and one triplicate vertex.  The triplicate vertex fulfilled the case of
+"more than two vertices very close to one another", and caused the code to hang.
+The threshold for vertices that are very close to one another has been increased to three.
+It is advisable to make sure that a polyhedron does not have more then three vertices
+that are "very close to one another", and to make sure that there are no duplicate vertices.
 }
 \references{
 W.P. Horn and D.L. Taylor, \emph{A theorem to determine the spatial containment of a point in a planar polygon}, Computer Vision, Graphics and Image Processing, vol. 45, pp. 106-116,1989.
@@ -124,14 +141,11 @@ Queries <- as.matrix(X)
 containment = pip3d(Vertices,Faces,Queries);
 
 #-------------------------------------------
-# A warning.
-#
-# If you remove one of the faces of the cube, the resulting cube is no 
-# longer "non-leaky".  Running 'pip3d' on the resulting defective
-# polyhedron will cause R to crash.
-#
-#    badcube     = faces[1:11,]
-#    containment = pip3d(verts,badcube,queries); # crash
-#
+# If you remove one of the faces of the cube, the resulting cube
+# becomes "leaky".  Running 'pip3d' on the resulting defective
+# polyhedron will return -2.
+
+badcube     = faces[1:11,]
+containment = pip3d(verts,badcube,queries);
 }
 \keyword{methods}

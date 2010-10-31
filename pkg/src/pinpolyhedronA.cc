@@ -372,7 +372,7 @@ PointInPolyhedron::PointInPolyhedron(double (*vti)[3], int numvi,int (*tris)[3],
 	sortTrianglesOuterNormAndRecNeighb(vertcoord,numvert,trips,numtri,tneighb,triofnode);
 	void **wvti;
 	wrapPointsUpasVerts(wvti);
-	polytree=new Kodtree(wvti,numvert,pofvforcoordnodes3,2,epsoverlap);
+	polytree=new Kodtree(wvti,numvert,pofvforcoordnodes3,3,epsoverlap);
 	delete wvti;
     polytree->setFuncExinfoShouldbeInCell(ifexinfoshouldbeincell);
 	polytree->setFuncExinfoOverlapBox(ifexinfooverlapbox);
@@ -559,7 +559,6 @@ int PointInPolyhedron::indexOfNeighbTriToTri(int tria,int trinb){
 	else jf_error("indexofneighb");
 }
 int PointInPolyhedron::nextTriOfVert(int v, int ctri){
-printf("PointInPolyhedron::nextTriOfVert(): about to call indexOfVertAtTri()...\n");fflush(NULL);
 	int ind=indexOfVertAtTri(v,ctri);
 	return tneighb[ctri][(1+ind)%3];
 }
@@ -749,11 +748,29 @@ void PIP_jianfei_cpp(double *vertices, int *numV,
         tris[i][1] = faces[i+1*(*numF)] - 1;
         tris[i][2] = faces[i+2*(*numF)] - 1;
     }
-	//construct a object of PointInPolyhedron
+
+    // Attempt to construct a object of PointInPolyhedron
 	PointInPolyhedron *ptpoly = 0;
 
- 	ptpoly = new PointInPolyhedron(vert,(*numV),tris,(*numF));
-	
+    try {
+ 	    ptpoly = new PointInPolyhedron(vert,(*numV),tris,(*numF));
+    }
+    catch ( int ptpolyError ) {
+        // Fill result vector with the code "-2" to indicate
+        // a failed initialization.
+        for( i=0; i<(*numQ); i++) {
+            result[i] = -2;
+        }
+
+        // Revert XYZ coordinates back to original values.
+        for ( i = 0; i < (*numV); i++ ) {
+            vert[i][0] += minX;
+            vert[i][1] += minY;
+            vert[i][2] += minZ;
+        }
+        return;
+    }
+
     // Loop over queries, feed them to the Jianfei method.
     // Don't forget about the minX, minY, and minZ shifts.
     double q[3]={0,0,0};
@@ -764,10 +781,8 @@ void PIP_jianfei_cpp(double *vertices, int *numV,
         result[i] = ptpoly->isPinPolyhedron(q);
     }
 
-    // Revert XYZ coordinates back to original values.
-    for ( i = 0; i < (*numV); i++ ) {
-        vert[i][0] += minX;
-        vert[i][1] += minY;
-        vert[i][2] += minZ;
-    }
+    // RELEASE MEMORY!!
+    delete [] tris;
+    delete [] vert;
+    delete ptpoly;
 }

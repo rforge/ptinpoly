@@ -820,8 +820,8 @@ void sort1ShellFromaTri(int tri,double (*vertcoord)[3],int numvert,int (*trips)[
 				quet.push(tnb);
 			}
 			tneighb[ctri][i]=tnb;
-printf("sort1ShellFromaTri(): about to call indexOfVertAtTri()...\n");fflush(NULL);
-printf("    i = %d, trips[%d][%d] = %d, tnb = %d\n",i,ctri,(i+1)%3,trips[ctri][(i+1)%3],tnb);fflush(NULL);
+//printf("sort1ShellFromaTri(): about to call indexOfVertAtTri()...\n");fflush(NULL);
+//printf("    i = %d, trips[%d][%d] = %d, tnb = %d\n",i,ctri,(i+1)%3,trips[ctri][(i+1)%3],tnb);fflush(NULL);
 			int ind=indexOfVertAtTri(trips[ctri][(i+1)%3],trips[tnb]);
 			tneighb[tnb][(ind+1)%3]=ctri;
 		}
@@ -871,7 +871,8 @@ int indexOfVertAtTri(int v, int t3n[3]){
 	if(t3n[0]==v) return 0;
 	else if(t3n[1]==v) return 1;
 	else if(t3n[2]==v) return 2;
-	else jf_error("indexoftri #1\n");
+	else throw((int)3);
+//	else jf_error("indexoftri #1\n");
 }
 
 /********************************************************/
