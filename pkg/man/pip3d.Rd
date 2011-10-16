@@ -38,6 +38,11 @@ the \code{Queries} matrix.
 '-5' (error) indicates that the \code{Faces} matrix was 0- rather than 1-offset
 
 '-6' (error) indicates that the \code{Queries} matrix didn't have three columns
+
+'-7' (error) indicates that two faces in the polyhedron were too close to one another
+
+'-8' (error) indicates computational error not otherwise specified. A possible cause is when two faces of the polygon are extremely close to one another (imagine bending a cylindrical balloon until the two ends meet). Adjusting the spatial smoothness of the data may fix this problem.
+
 }
 \note{
 The polyhedron defined by \code{Vertices} and \code{Faces} \emph{must} be "non-leaky";
@@ -51,8 +56,10 @@ to one another; this problem was discovered with a polyhedron in which there wer
 duplicate vertices and one triplicate vertex.  The triplicate vertex fulfilled the case of
 "more than two vertices very close to one another", and caused the code to hang.
 The threshold for vertices that are very close to one another has been increased to three.
-It is advisable to make sure that a polyhedron does not have more then three vertices
+It is advisable to make sure that a polyhedron does not have more than three vertices
 that are "very close to one another", and to make sure that there are no duplicate vertices.
+Similarly, it is advisable to make sure that a polyhedron does not have \emph{faces} that
+that are extremely close to one another.
 }
 \references{
 W.P. Horn and D.L. Taylor, \emph{A theorem to determine the spatial containment of a point in a planar polygon}, Computer Vision, Graphics and Image Processing, vol. 45, pp. 106-116,1989.
@@ -61,7 +68,7 @@ S. Nordbeck and B. Rysedt, \emph{Computer cartography point-in-polygon programs}
 
 J.A. Baerentzen and H. Aanaes, \emph{Signed distance computation using the angle weighted pseudo-normal}, IEEE Trans. Visualization and Computer Graphics, vol. 11, no. 3, pp. 243-253, May/June 2005.
 
-J. Liu, Y.Q. Chen, J.M. Maisog, G. Luta, \emph{A new point containment test algorithm for polyhedron composed of huge number of triangles}, paper in preparation.
+J. Liu, Y.Q. Chen, J.M. Maisog, G. Luta, \emph{A new point containment test algorithm for polyhedron composed of huge number of triangles}, Computer-Aided Design, Volume 42, Issue 12, December 2010, Pages 1143-1150.
 
 \url{http://ptinpoly.pbworks.com/}
 }
@@ -113,31 +120,6 @@ Queries <- as.matrix(X)
 
 # Check whether test points are contained in the torus.
 # Most of these points will lie outside the torus.
-containment = pip3d(Vertices,Faces,Queries);
-
-#-------------------------------------------
-# Complex polyhedron example.
-
-# Load polyhedron.
-data(triMesh)
-
-# If desired, this complex polyhedron can be rendered for visualization, e.g.:
-# drawScene.rgl(triMesh)
-
-# Convert to vertices-faces representation.
-ve       <- misc3d:::t2ve(triMesh)
-Vertices <- t(ve$vb)
-Faces    <- t(ve$ib)
-
-# Generate 3333 random test points.
-set.seed(1902)
-n       <- 3333
-x1      <- rnorm(n) ; x2 <- rnorm(n) ; x3 <- rnorm(n)
-X       <- cbind(x1,x2,x3)
-Queries <- as.matrix(X)
-
-# Check whether test points are contained in the polyhedron.
-# Most of these points will lie outside the polyhedron.
 containment = pip3d(Vertices,Faces,Queries);
 
 #-------------------------------------------

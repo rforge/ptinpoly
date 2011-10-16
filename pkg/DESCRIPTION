@@ -1,11 +1,13 @@
 Package: ptinpoly
-Title: Point-In-Polyhedron Test (3D)
-Version: 1.9
-Date: 2010-08-07
+Title: Point-In-Polyhedron Test (2D and 3D)
+Version: 2.0
+Date: 2011-10-16
 Author: Jose M. Maisog, Yuan Wang, George Luta, Jianfei Liu
 Maintainer: Jose M. Maisog <bravas02@gmail.com>
 Description: This library provides a function 'pip3d', which tests whether a point in 3D space is
         within, exactly on, or outside an enclosed surface defined by a triangular mesh.
+		Also provided is a 2D version, 'pip2d', which tests whether a point in 2D space is
+		within, exactly on, or outside a polygon.
 License: GPL-2
 LazyLoad: yes
 Depends: misc3d

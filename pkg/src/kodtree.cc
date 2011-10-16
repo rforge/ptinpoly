@@ -1,3 +1,4 @@
+#include "R.h"     // R functions
 #include "kodtree.h"
 #include <queue>
 #include <math.h>
@@ -15,9 +16,9 @@ extern int IsTriangleBoxInt(Point p1 ,Point p2 ,Point p3 , double box[6] );
 //const double Kodtree:: epscoplanar=0.000001;
 //int Kodtree::cellcapacity;
 
- CellNode * Kodtree:: findTheNearestAncestorContainingPoint(CellNode *pcell0,Point pcha){
+ CellNode3D * Kodtree:: findTheNearestAncestorContainingPoint(CellNode3D *pcell0,Point pcha){
 	
-	CellNode *pcell=pcell0;
+	CellNode3D *pcell=pcell0;
 	for(;;){
 		if(pcell==0) return 0;
 		if(ifBoxContainPoint(pcha,pcell->bound,root->bound)) return pcell;//need or not to follow the convention?
@@ -25,9 +26,9 @@ extern int IsTriangleBoxInt(Point p1 ,Point p2 ,Point p3 , double box[6] );
 	}
 }
 
-CellNode *  Kodtree::findaLeafCellContainingPoint(CellNode *pcell,Point p){
+CellNode3D *  Kodtree::findaLeafCellContainingPoint(CellNode3D *pcell,Point p){
 
-	CellNode *rtpcell;
+	CellNode3D *rtpcell;
 
 	if(!pcell||!ifBoxContainPoint(p,pcell->bound,root->bound))//need or not to follow the convention?
 		return 0;
@@ -39,7 +40,7 @@ CellNode *  Kodtree::findaLeafCellContainingPoint(CellNode *pcell,Point p){
 	jf_error("err findaleafcellcontainp");
 }
 
-bool  Kodtree::if2CellNeighb(CellNode *pcell0, CellNode *pcell1){
+bool  Kodtree::if2CellNeighb(CellNode3D *pcell0, CellNode3D *pcell1){
 
 	if(!pcell0||!pcell1) 
 		jf_error("err is2cellneigh");
@@ -54,7 +55,7 @@ Kodtree::Kodtree(const Box &bd,Funcpointofvert pofvin,int capacity,double epsi){
 
 	double lcube=max(bd[3]-bd[0],max(bd[4]-bd[1],bd[5]-bd[2]));
 	epscell=numeric_limits<double>::epsilon()*(1+lcube);
-	root=new CellNode(bd);
+	root=new CellNode3D(bd);
 	pofv=pofvin;
 	cellcapacity=capacity;
 	epsoverlap=epsi;
@@ -66,7 +67,7 @@ Kodtree::Kodtree(void **vert, int numvert,Funcpointofvert pofvin,int capacity,do
 	boxOfVerts(vert,numvert,bd,pofvin);
 	double lcube=max(bd[3]-bd[0],max(bd[4]-bd[1],bd[5]-bd[2]));
 	epscell=numeric_limits<double>::epsilon()*(1+lcube);
-	root=new CellNode(bd);
+	root=new CellNode3D(bd);
 	pofv=pofvin;
 	cellcapacity=capacity;
 	epsoverlap=epsi;
@@ -80,7 +81,7 @@ Kodtree::Kodtree(void **vert, int numvert,const Box &bd,Funcpointofvert pofvin,i
 //	boxOfPoints(vert,numvert,bd);
 	double lcube=max(bd[3]-bd[0],max(bd[4]-bd[1],bd[5]-bd[2]));
 	epscell=numeric_limits<double>::epsilon()*(1+lcube);
-	root=new CellNode(bd);
+	root=new CellNode3D(bd);
 	pofv=pofvin;
 	cellcapacity=capacity;
 	epsoverlap=epsi;
@@ -97,7 +98,7 @@ Kodtree::~Kodtree(){
 
 
 
-void Kodtree::insertWpVertInSubTree(const Point &p, WpVert *v, CellNode *cnode){
+void Kodtree::insertWpVertInSubTree(const Point &p, WpVert *v, CellNode3D *cnode){
 
 	if(!cnode)
 		jf_error("err insvinst");
@@ -124,7 +125,7 @@ void Kodtree::insertWpVertInSubTree(const Point &p, WpVert *v, CellNode *cnode){
 }
 
 
-bool Kodtree::isVertRecordInSubTree(const Point &p,void *v, CellNode *cnode){
+bool Kodtree::isVertRecordInSubTree(const Point &p,void *v, CellNode3D *cnode){
 
 	if(!cnode)
 		jf_error("err insvinst");
@@ -142,7 +143,7 @@ bool Kodtree::isVertRecordInSubTree(const Point &p,void *v, CellNode *cnode){
 	return false;
 }
 
-int comWpVertNum(CellNode *cnode, CellNode *cnsib){
+int comWpVertNum(CellNode3D *cnode, CellNode3D *cnsib){
 
 	int num=0;
 	for(int i=0; i<cnsib->numvert; i++){
@@ -152,7 +153,7 @@ int comWpVertNum(CellNode *cnode, CellNode *cnsib){
 	return num;
 }
 
-void Kodtree::deleteVertInSubTree(const Point &p,void *v, CellNode *cnode){
+void Kodtree::deleteVertInSubTree(const Point &p,void *v, CellNode3D *cnode){
 
 	if(!cnode)
 		jf_error("err insvinst");
@@ -180,7 +181,7 @@ void Kodtree::deleteVertInSubTree(const Point &p,void *v, CellNode *cnode){
 	
 }
 
-void Kodtree::insertWpInfoInSubTree(WpInfo *pwinfo, CellNode *cnode){
+void Kodtree::insertWpInfoInSubTree(WpInfo *pwinfo, CellNode3D *cnode){
 
 	if(!cnode)
 		jf_error("err insvinst");
@@ -200,7 +201,7 @@ void Kodtree::insertWpInfoInSubTree(WpInfo *pwinfo, CellNode *cnode){
 	pwinfo->rcount++;
 }
 
-void Kodtree::deleteExinfoInSubTree(void *info,int infotype, CellNode *cnode){
+void Kodtree::deleteExinfoInSubTree(void *info,int infotype, CellNode3D *cnode){
 
 	if(!cnode)
 		jf_error("err insvinst");
@@ -230,7 +231,7 @@ void Kodtree::deleteExinfoInSubTree(void *info,int infotype, CellNode *cnode){
 
 
 
-void Kodtree::checkAndMergeSubTreeAfterDelete(const Point &p,CellNode *cnode){
+void Kodtree::checkAndMergeSubTreeAfterDelete(const Point &p,CellNode3D *cnode){
 
 	if(!cnode||cnode->isLeaf()|| ! ifPointOverlapWithBox(p,cnode->bound,root->bound ,epsoverlap ))
 		return;
@@ -243,7 +244,7 @@ void Kodtree::checkAndMergeSubTreeAfterDelete(const Point &p,CellNode *cnode){
 }
 
 
-void Kodtree::checkAndRemoveSurplusWpInfoAfterMerge(CellNode *cnode){
+void Kodtree::checkAndRemoveSurplusWpInfoAfterMerge(CellNode3D *cnode){
 
 	if(!cnode->lpwpinfo) return;
 	std::list<WpInfo *>::iterator ite,iten;
@@ -261,7 +262,7 @@ void Kodtree::checkAndRemoveSurplusWpInfoAfterMerge(CellNode *cnode){
 }
 
 
-void Kodtree::mergeSubTree(CellNode *cnode){
+void Kodtree::mergeSubTree(CellNode3D *cnode){
 
 	if(cnode==0) jf_error("err mergecellup");
 	if(cnode->isLeaf()) return;
@@ -275,7 +276,7 @@ void Kodtree::mergeSubTree(CellNode *cnode){
 	}
 }
 
-void Kodtree::merge2SubCellWpVert(CellNode *cnode){
+void Kodtree::merge2SubCellWpVert(CellNode3D *cnode){
 
 	cnode->vert =(PtWpVert *) new PtWpVert[Kodtree::cellcapacity];
 	if(cnode->isLeaf()) jf_error("err merge2subcellvert");
@@ -295,10 +296,10 @@ void Kodtree::merge2SubCellWpVert(CellNode *cnode){
 	if(cnode->numvert!=count) jf_error("err merge2subcellvert1");
 }
 
-void Kodtree::merge2SubCellWpInfo(CellNode *cnode){
+void Kodtree::merge2SubCellWpInfo(CellNode3D *cnode){
 
 	if(cnode->isLeaf()) jf_error("err merge2subcellwpinfo");
-	CellNode *left=cnode->child[0],*right=cnode->child[1];
+	CellNode3D *left=cnode->child[0],*right=cnode->child[1];
 	if(left->lpwpinfo==0&&right->lpwpinfo==0){
 		cnode->lpwpinfo=0;
 		return;
@@ -341,7 +342,7 @@ void Kodtree::collectVertsWithBox(const Box &bd, list<void *> &lvert){
 	}
 }
 
-void Kodtree::collectWpVertsWithBoxInSubTree(CellNode *cnode,const Box &bd,list<WpVert *> &lvert){
+void Kodtree::collectWpVertsWithBoxInSubTree(CellNode3D *cnode,const Box &bd,list<WpVert *> &lvert){
 	if(!cnode) return;
 	if(!if2BoxOverlap(bd,cnode->bound)) return;
 	if(!cnode->isLeaf()){
@@ -360,7 +361,7 @@ void Kodtree::collectWpVertsWithBoxInSubTree(CellNode *cnode,const Box &bd,list<
 	}
 }
 
-void Kodtree::collectVertsWithCell(CellNode *cnode, std::vector<void *> &vecvert){
+void Kodtree::collectVertsWithCell(CellNode3D *cnode, std::vector<void *> &vecvert){
 
 	for(int i=0; i<cnode->numvert; i++)
 		vecvert.push_back(cnode->vert[i]->vt);
@@ -377,7 +378,7 @@ void Kodtree::collectExinfoWithBox(const Box &bd, int infotype,list<void *> &lex
 	}
 }
 
-void Kodtree::collectWpinfoWithBoxInSubTree(CellNode *cnode,const Box &bd,int infotype,list<WpInfo *> &lwpinfo){
+void Kodtree::collectWpinfoWithBoxInSubTree(CellNode3D *cnode,const Box &bd,int infotype,list<WpInfo *> &lwpinfo){
 	if(!cnode) return;
 	if(!if2BoxOverlap(bd,cnode->bound)) return;
 	if(!cnode->isLeaf()){
@@ -397,7 +398,7 @@ void Kodtree::collectWpinfoWithBoxInSubTree(CellNode *cnode,const Box &bd,int in
 	}
 }
 
-void Kodtree::collectExinfoWithCell(CellNode *cnode, int infotype,list<void *> &lexinfo){
+void Kodtree::collectExinfoWithCell(CellNode3D *cnode, int infotype,list<void *> &lexinfo){
 
 	if(cnode->lpwpinfo==0) return;
 	for(std::list<WpInfo *>::iterator ite=cnode->lpwpinfo->begin();ite!=cnode->lpwpinfo->end(); ite++)
@@ -405,10 +406,10 @@ void Kodtree::collectExinfoWithCell(CellNode *cnode, int infotype,list<void *> &
 			lexinfo.push_back((*ite)->info);
 }
 
-void Kodtree::splitNode(CellNode *cnode){
+void Kodtree::splitNode(CellNode3D *cnode){
 
 	for(int i=0; i<2; i++){
-		cnode->child[i]=new CellNode(cnode->bound);
+		cnode->child[i]=new CellNode3D(cnode->bound);
 		cnode->child[i]->parent=cnode;
 	}
 	int di;
@@ -438,7 +439,7 @@ void Kodtree::splitNode(CellNode *cnode){
 }
 
 
-void Kodtree::freeSubTree(CellNode *pcell){
+void Kodtree::freeSubTree(CellNode3D *pcell){
 
 	if(pcell ==0) return;
 	for(int i=0; i<2; i++)
@@ -447,7 +448,7 @@ void Kodtree::freeSubTree(CellNode *pcell){
 }
 
 
-CellNode ::CellNode(const Box &bd){
+CellNode3D ::CellNode3D(const Box &bd){
 
 //	psegar=0;
 	vert=0;
@@ -460,7 +461,7 @@ CellNode ::CellNode(const Box &bd){
 	parent=0;
 }
 
-CellNode ::~CellNode (){
+CellNode3D ::~CellNode3D (){
 //	delete psegar;
 	if(vert!=0)
 	    for(int i=0; i<numvert; i++)
@@ -520,10 +521,11 @@ void copy3DPoint(const Point &pfr,Point &pto){ //const or not?
 
 void jf_error(char *ch){
 
-		printf("%s\n",ch);
-		exit(1);
+		Rprintf("%s\n",ch);
+		throw(8);
+//		printf("%s\n",ch);
+//		exit(1);
 }
-
 
 bool ifBoxContainPoint( Point p,const Box &bound,const Box &rootbound){
 
@@ -778,7 +780,8 @@ int getAndSortaLowestTri(bool firstshell,double (*vertcoord)[3],int numvert,int 
 			}
 		}
 	}
-	if(vertridge==-1) jf_error("err getand sortalow");
+//	if(vertridge==-1) jf_error("err getand sortalow");
+	if(vertridge==-1) throw(7);
 	get2TriCom2NodesWithoutTopology(trips,vert,vertridge,tria,trib);
 	int nd=trips[trib][0]+trips[trib][1]+trips[trib][2]-vertridge-vert;
 	double vol=VolumOf4p(vertcoord[trips[tria][0]],vertcoord[trips[tria][1]],vertcoord[trips[tria][2]],vertcoord[nd]);
@@ -789,8 +792,8 @@ int getAndSortaLowestTri(bool firstshell,double (*vertcoord)[3],int numvert,int 
 		  int nc=trips[tria][0]+trips[tria][1]+trips[tria][2]-vertridge-vert;
 		  norm_3p(vertcoord[vert],vertcoord[vertridge],vertcoord[nc],nm1);
 		  norm_3p(vertcoord[vert],vertcoord[vertridge],vertcoord[nd],nm2);
-		  if(vec_dotp(nm1,nm2)>=0) jf_error("err getandsortalow");
-		}
+//		  if(vec_dotp(nm1,nm2)>=0) jf_error("err getandsortalow");
+		  if(vec_dotp(nm1,nm2)>=0) throw(7);		}
 		norm_3p(vertcoord[trips[tria][0]],vertcoord[trips[tria][1]],vertcoord[trips[tria][2]],norm);
 		if(norm[2]<0) orientflag=true;
 	}else
@@ -871,7 +874,7 @@ int indexOfVertAtTri(int v, int t3n[3]){
 	if(t3n[0]==v) return 0;
 	else if(t3n[1]==v) return 1;
 	else if(t3n[2]==v) return 2;
-	else throw((int)3);
+	else throw((int)7);
 //	else jf_error("indexoftri #1\n");
 }
 

@@ -3,31 +3,31 @@ pip3d = function(Vertices,Faces,Queries) {
 
     # Basic checks of Vertices input argument.
     vertDims = dim(Vertices)
-    numColsV = vertDims[2] ;
+    numColsV = vertDims[2]
     if ( numColsV != 3 ) {
         print("pip3d(): Number of columns in Vertices must be 3!")
-        return(-3);
+        return(as.vector(rep(-3,nrow(Queries))))
     }
 
     # Basic checks of Faces input argument.
     faceDims = dim(Faces)
-    numColsF = faceDims[2] ;
+    numColsF = faceDims[2]
     if ( numColsF != 3 ) {
         print("pip3d(): Number of columns in Faces must be 3!")
-        return(-4);
+        return(as.vector(rep(-4,nrow(Queries))))
     }
 
     if ( min(Faces) < 1 ) {
         print("pip3d(): Values in Faces must be greater than 0!")
-        return(-5);
+        return(as.vector(rep(-5,nrow(Queries))))
     }
 
     # Basic checks of Queries input argument.
     querDims = dim(Queries)
-    numColsQ = querDims[2] ;
+    numColsQ = querDims[2]
     if ( numColsQ != 3 ) {
         print("pip3d(): Number of columns in Queries must be 3!")
-        return(-6);
+        return(as.vector(rep(-6,nrow(Queries))))
     }
 
     # Invoke theptinpoly C++ code (for convenience, it has
