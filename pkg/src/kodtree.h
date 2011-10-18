@@ -37,9 +37,9 @@ public:
 	typedef void (*Funcpointofvert)(Point p,void *v);
 	typedef bool (*Funcexinfoshouldbeincell)(void *info, int infotype, CellNode3D *cnode);
 	typedef bool (*Funcexinfooverlapbox) (void *info, int infotype, const Box &bd,double epsi);
-	Kodtree(const Box &bd,Funcpointofvert pofv, const int capacity=10,double epsi=0);
-	Kodtree(void **vti, int numvi,Funcpointofvert pofv,const int capacity=10,double epsi=0);
-	Kodtree(void **vti, int numvi,const Box &bd,Funcpointofvert pofv, const int capacity=10,double epsi=0);
+	Kodtree(const Box &bd,Funcpointofvert pofv, int capacity=10,double epsi=0);
+	Kodtree(void **vti, int numvi,Funcpointofvert pofv, int capacity=10,double epsi=0);
+	Kodtree(void **vti, int numvi,const Box &bd,Funcpointofvert pofv, int capacity=10,double epsi=0);
 	~Kodtree();
 	CellNode3D *getRoot(void){ return root;}
 	WpVert *insertVert(void *v){

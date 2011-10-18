@@ -1,7 +1,7 @@
 Package: ptinpoly
 Title: Point-In-Polyhedron Test (2D and 3D)
 Version: 2.0
-Date: 2011-10-16
+Date: 2011-10-17
 Author: Jose M. Maisog, Yuan Wang, George Luta, Jianfei Liu
 Maintainer: Jose M. Maisog <bravas02@gmail.com>
 Description: This library provides a function 'pip3d', which tests whether a point in 3D space is
