@@ -617,7 +617,7 @@ double sqDistPointToSeg3D(double p[3],double p0[3],double p1[3]){
 		return sqdp1p;
 	double sqd=sqdp1p-prjp1p*prjp1p/vec_sqval(vp0p1);
 	if(sqd<0){
-		cout<<sqd<<" less than 0"<<endl;
+//		cout<<sqd<<" less than 0"<<endl;
 		sqd=0;
 	}
 	return sqd;  //?

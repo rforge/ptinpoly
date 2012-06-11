@@ -92,7 +92,7 @@ containment = pip3d(verts,faces,queries);
 # Torus example.
 
 # Make a donut-shaped polyhedron.
-# library(misc3d)
+library(misc3d)
 torus <- parametric3d(fx = function(u,v) (1+0.25*cos(v))*cos(u),
                       fy = function(u,v) (1+0.25*cos(v))*sin(u),
                       fz = function(u,v) 0.25*sin(v),
@@ -104,7 +104,7 @@ torus <- parametric3d(fx = function(u,v) (1+0.25*cos(v))*cos(u),
 # library(geometry)
 # library(rgl)
 # library(misc3d)
-drawScene.rgl(torus)
+# drawScene.rgl(torus)
 
 # Convert the torus to vertices-faces representation.
 ve       <- misc3d:::t2ve(torus)
