@@ -22,6 +22,36 @@ pip3d = function(Vertices,Faces,Queries) {
         return(as.vector(rep(-5,nrow(Queries))))
     }
 
+    # Check to ensure that ALL vertices in the matrix VERTICES
+    # are actually used in the matrix defining the faces, FACES.
+    # First, make a list of the vertices in VERTICES that
+    # are ACTUALLY USED in FACES.
+    numVertices <- nrow(Vertices)
+    listOfUsedVertices <- unique(as.numeric(Faces))
+    if ( ! all(1:numVertices %in% listOfUsedVertices) ) {
+        # If we got in this IF block, then not all vertices
+        # in the matrix VERTICES are actually used in FACES.
+        # Modify these two matrices to so that ALL vertices
+        # listed in the matrix VERTICES are actually used
+        # in the matrix FACES, and that the indices in FACES
+        # run from exactly 1 to exactly the number of vertices
+        # defined in the matrix VERTICES.
+
+        # Make an updated version of Vertices that contains
+        # ONLY the vertices that are mentioned in FACES.
+        Vertices <- Vertices[listOfUsedVertices,]
+
+        # Make an updated version of FACES that references
+        # the vertices in the updated Vertices.
+        numVerticesUsed <- length(listOfUsedVertices)
+        FacesTmp <- matrix(NA,nrow(Faces),ncol(Faces)); # Initialize to NA.
+        for ( i in 1:numVerticesUsed ) {
+            vertIndex <- listOfUsedVertices[i]
+            FacesTmp[ Faces == vertIndex ] <- i
+        }
+        Faces <- FacesTmp
+    }
+
     # Basic checks of Queries input argument.
     querDims = dim(Queries)
     numColsQ = querDims[2]
