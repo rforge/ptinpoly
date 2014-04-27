@@ -37,13 +37,15 @@ CellNode3D *  Kodtree::findaLeafCellContainingPoint(CellNode3D *pcell,Point p){
 	for( int i=0; i<2; i++)
 		if((rtpcell=findaLeafCellContainingPoint(pcell->child[i],p))!=0)
 			return rtpcell;
-	jf_error("err findaleafcellcontainp");
+	throw(8);
+//	jf_error("err findaleafcellcontainp");
 }
 
 bool  Kodtree::if2CellNeighb(CellNode3D *pcell0, CellNode3D *pcell1){
 
-	if(!pcell0||!pcell1) 
-		jf_error("err is2cellneigh");
+	if(!pcell0||!pcell1)
+	    throw(8);
+//		jf_error("err is2cellneigh");
 	if(if2BoxNeighb(pcell0->bound,pcell1->bound))
 		return true;
 	else

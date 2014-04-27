@@ -93,7 +93,8 @@ int PointInPolyhedron::isPinPolyhedron( double p[3]){
 		return testPinPolyhedronForPinGcell(p,pcell);
 	//else if(pcell->inoutattrib==-2)
 	if((pcell->inoutattrib=testPinPolyhedronForPinGcell(p,pcell))==0)
-		jf_error("err ispointin");
+		throw(8);
+//		jf_error("err ispointin");
 	else return pcell->inoutattrib;
 /*	double pm[3];
 	CellNode3D *pcellm=0;
@@ -348,7 +349,8 @@ int positionOfPointProjectToTri(double p[3],double p0[3],double p1[3],double p2[
 		return 4; // rt==0;
 
 	if(dt01>0&&dt12>0&&dt20>0) return 6;
-	else jf_error("asdf posiotin");
+	else throw(8);
+//	else jf_error("asdf posiotin");
 }
 extern void sortTrianglesOuterNormAndRecNeighb(double (*vertcoord)[3],int numvert,int (*trips)[3],
 										int numtri,int (*tneighb)[3],int *triofnode);
@@ -518,8 +520,9 @@ double sqDistPointToTri(double p[3],double p0[3],double p1[3],double p2[3]){
   if(dt01>=0&&dt12>=0&&dt20>=0){
 		double a=vec_dotp(nm012,v0p);
 		return a*a/vec_sqval(nm012);
-	}else
-		jf_error("asdf posiotin");
+	} else
+	    throw(8);
+//		jf_error("asdf posiotin");
 }
 
 
@@ -549,14 +552,16 @@ int PointInPolyhedron::indexOfVertAtTri(int v, int ctri){
 	if(trips[ctri][0]==v) return 0;
 	else if(trips[ctri][1]==v) return 1;
 	else if(trips[ctri][2]==v) return 2;
-	else jf_error("indexoftri #2\n");
+	else throw(8);
+//	else jf_error("indexoftri #2\n");	
 }
 int PointInPolyhedron::indexOfNeighbTriToTri(int tria,int trinb){
 
 	if(tneighb[tria][0]==trinb) return 0;
 	else if(tneighb[tria][1]==trinb) return 1;
 	else if(tneighb[tria][2]==trinb) return 2;
-	else jf_error("indexofneighb");
+	else throw(8);
+//	else jf_error("indexofneighb");
 }
 int PointInPolyhedron::nextTriOfVert(int v, int ctri){
 	int ind=indexOfVertAtTri(v,ctri);
@@ -569,7 +574,8 @@ int PointInPolyhedron::nextVertOfTri(int tri,int v){
 	if(v==trips[tri][0]) return trips[tri][1];
 	else if(v==trips[tri][1]) return trips[tri][2];
 	else if(v==trips[tri][2]) return trips[tri][0];
-	else jf_error("nextvoftri");
+	else throw(8);
+//	else jf_error("nextvoftri");
 }
 void PointInPolyhedron::getThePointFormingLeastAngleWith2Points(double p[3],int v, int *nbverts,int numnbv,double &maxcosa,int &vridge){
 
@@ -774,12 +780,20 @@ void PIP3D_jianfei_cpp(double *vertices, int *numV,
 
     // Loop over queries, feed them to the Jianfei method.
     // Don't forget about the minX, minY, and minZ shifts.
+    //
+    // JMM (4/26/2014): Use TRY-CATCH to catch computational
+    // errors and set RESULT[I] accordingly.
     double q[3]={0,0,0};
     for( i=0; i<(*numQ); i++) {
-        q[0]      = query[i+0*(*numQ)] - minX;
-        q[1]      = query[i+1*(*numQ)] - minY;
-        q[2]      = query[i+2*(*numQ)] - minZ;
-        result[i] = ptpoly->isPinPolyhedron(q);
+        q[0] = query[i+0*(*numQ)] - minX;
+        q[1] = query[i+1*(*numQ)] - minY;
+        q[2] = query[i+2*(*numQ)] - minZ;
+        try {
+            result[i] = ptpoly->isPinPolyhedron(q);
+        }
+        catch {
+            result[i] = -8;
+        }
     }
 
     // RELEASE MEMORY!!
@@ -1394,7 +1408,8 @@ CellNode2D * PolyQuadtree:: findaLeafCellContainingPoint(CellNode2D *pcell,doubl
 	for( int i=0; i<4; i++)
 		if((rtpcell=findaLeafCellContainingPoint(pcell->child[i],p))!=0)
 			return rtpcell;
-	jf_error("err findaleafcellcontainp");
+//	jf_error("err findaleafcellcontainp");
+	throw(8);
 }
 
 bool PolyQuadtree:: if2CellNeighb(CellNode2D *pcell0, CellNode2D *pcell1){
