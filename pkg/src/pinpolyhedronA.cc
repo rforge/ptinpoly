@@ -791,7 +791,7 @@ void PIP3D_jianfei_cpp(double *vertices, int *numV,
         try {
             result[i] = ptpoly->isPinPolyhedron(q);
         }
-        catch {
+        catch (...) {
             result[i] = -8;
         }
     }
