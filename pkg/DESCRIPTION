@@ -10,5 +10,6 @@ Description: This library provides a function 'pip3d', which tests whether a poi
 		within, exactly on, or outside a polygon.
 License: GPL-2
 LazyLoad: yes
-Suggests: misc3d, rgl, geometry
+Depends: misc3d
+Suggests: rgl, geometry
 URL: http://ptinpoly.pbworks.com
