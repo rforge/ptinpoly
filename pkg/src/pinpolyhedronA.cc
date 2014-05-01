@@ -375,7 +375,7 @@ PointInPolyhedron::PointInPolyhedron(double (*vti)[3], int numvi,int (*tris)[3],
 	void **wvti;
 	wrapPointsUpasVerts(wvti);
 	polytree=new Kodtree(wvti,numvert,pofvforcoordnodes3,3,epsoverlap);
-	delete wvti;
+	delete [] wvti;
     polytree->setFuncExinfoShouldbeInCell(ifexinfoshouldbeincell);
 	polytree->setFuncExinfoOverlapBox(ifexinfooverlapbox);
 	for(int i=0; i<numtri; i++)
