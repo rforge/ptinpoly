@@ -11,5 +11,5 @@ Description: This library provides a function 'pip3d', which tests whether a poi
 License: GPL-2
 LazyLoad: yes
 Imports: misc3d
-Suggests: misc3d, rgl, geometry
+Suggests: rgl, geometry
 URL: http://ptinpoly.pbworks.com
