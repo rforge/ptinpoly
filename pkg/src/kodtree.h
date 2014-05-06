@@ -129,7 +129,7 @@ struct CellNode3D{
 	bool isLeaf(){ return !child[0];}
 };
  
-extern void jf_error(char *ch);
+extern void jf_error(const char *ch);
 extern bool ifBoxContainPoint( Point p,const Box &bound,const Box &rootbound);
 extern bool if2BoxOverlap(const Box &a,const Box &b);
 extern bool if2BoxNeighb(const Box &a,const Box &b);

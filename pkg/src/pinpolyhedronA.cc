@@ -19,7 +19,7 @@
 #include <float.h> // For DBL_MAX
 
 #include "pinpolyhedron.h"
-extern  void jf_error(char *);
+extern  void jf_error(const char *);
 using namespace std;
 
 const double PointInPolyhedron::epsilonon=0.00000000000001;
