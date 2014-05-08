@@ -1147,7 +1147,7 @@ void PolyQuadtree::sortTheDistancesOfChildrenFromPoint(double p[2],CellNode2D *p
 	for(int i=0; i<4; i++){
 		int index=0;
 		for(int j=0; j<4; j++)
-			if(distpc[i]>distpc[j]||i>j&&distpc[i]==distpc[j])
+			if(distpc[i]>distpc[j]||(i>j&&distpc[i]==distpc[j]))
 				index++;
 		sortsub[index]=pcell->child[i];
 	}
@@ -1316,7 +1316,7 @@ void PolyQuadtree::getTheClosestSegAmongCell(double p[2],CellNode2D *pcell, doub
 	if(!pcell||!pcell->isLeaf())
 		jf_error("error gettheclosetsegamongcell");
 	if(pcell->psegar!=0)
-		for(int i=0; i<pcell->psegar->size(); i++){
+		for(unsigned int i=0; i<pcell->psegar->size(); i++){
 			seg=(*(pcell->psegar))[i];
 			getEndPointOfSeg(seg,p0,p1);
 			if((distemp=squareDistPointToSeg(p,p0,p1))<dist){
@@ -1777,23 +1777,23 @@ int convexityOf3Point(double p0[2],double p1[2],double p2[2],double eps=0){
 }
 bool ifSegOverlapBox2D(double ps[2],double pe[2],double bd[4],double eps){
 
-	double bound[4];
+    double bound[4];
 
-	double a=bd[2]-bd[0];
-	double b=bd[3]-bd[1];
-	bound[0]=bd[0]-eps*a;
-	bound[1]=bd[1]-eps*b;
-	bound[2]=bd[2]+eps*a;
-	bound[3]=bd[3]+eps*b;
+    double a=bd[2]-bd[0];
+    double b=bd[3]-bd[1];
+    bound[0]=bd[0]-eps*a;
+    bound[1]=bd[1]-eps*b;
+    bound[2]=bd[2]+eps*a;
+    bound[3]=bd[3]+eps*b;
 
-	if(ps[0]<bound[0]&&pe[0]<bound[0]||ps[0]>bound[2]&&pe[0]>bound[2]||
-	   ps[1]<bound[1]&&pe[1]<bound[1]||ps[1]>bound[3]&&pe[1]>bound[3]) 
-	   return false;
-	else if(ps[0]>=bound[0]&&ps[1]>=bound[1]&&ps[0]<=bound[2]&&ps[1]<=bound[3]
-	 ||pe[0]>=bound[0]&&pe[1]>=bound[1]&&pe[0]<=bound[2]&&pe[1]<=bound[3])
-		return true;
-	else
-		return if4CornerOfBoxAtDifferentSideOfSeg(ps,pe,bound);
+    if((ps[0]<bound[0]&&pe[0]<bound[0])||(ps[0]>bound[2]&&pe[0]>bound[2])||
+       (ps[1]<bound[1]&&pe[1]<bound[1])||(ps[1]>bound[3]&&pe[1]>bound[3])) 
+        return false;
+    else if((ps[0]>=bound[0]&&ps[1]>=bound[1]&&ps[0]<=bound[2]&&ps[1]<=bound[3])
+          ||(pe[0]>=bound[0]&&pe[1]>=bound[1]&&pe[0]<=bound[2]&&pe[1]<=bound[3]))
+        return true;
+    else
+        return if4CornerOfBoxAtDifferentSideOfSeg(ps,pe,bound);
 }
 bool if4CornerOfBoxAtDifferentSideOfSeg(double ps[2],double pe[2],double bound[4]){
 

@@ -533,9 +533,9 @@ bool ifBoxContainPoint( Point p,const Box &bound,const Box &rootbound){
 
 	if(p[0]<bound[0]||p[1]<bound[1]||p[2]<bound[2]||p[0]>bound[3]||p[1]>bound[4]||p[2]>bound[5])
 		return false;
-	else if(bound[0]!=rootbound[0]&&p[0]==bound[0]||
-		    bound[1]!=rootbound[1]&&p[1]==bound[1]||
-			bound[2]!=rootbound[2]&&p[2]==bound[2] ) //need or not to follow the convention?
+	else if((bound[0]!=rootbound[0]&&p[0]==bound[0])||
+		    (bound[1]!=rootbound[1]&&p[1]==bound[1])||
+			(bound[2]!=rootbound[2]&&p[2]==bound[2]) ) //need or not to follow the convention?
 		return false;
 	else 
 		return true;
@@ -554,9 +554,9 @@ bool ifPointOverlapWithBox(const Point &p,const Box &bd,const Box &rootbound,dou
 	}//convention
 	if(p[0]<bound[0]||p[1]<bound[1]||p[2]<bound[2]||p[0]>bound[3]||p[1]>bound[4]||p[2]>bound[5])
 		return false;
-	else if(bound[0]!=rootbound[0]&&p[0]==bound[0]||
-		    bound[1]!=rootbound[1]&&p[1]==bound[1]||
-			bound[2]!=rootbound[2]&&p[2]==bound[2] )
+	else if((bound[0]!=rootbound[0]&&p[0]==bound[0])||
+		    (bound[1]!=rootbound[1]&&p[1]==bound[1])||
+			(bound[2]!=rootbound[2]&&p[2]==bound[2]) )
 		return false;
 	else 
 		return true;
@@ -847,9 +847,9 @@ int getNeighbTriWithoutTopology(int (*trips)[3],int tri,int ind){
 }
 bool triSortAs2Nodes(int tri3p[3],int va, int vb){
 
-	if(tri3p[0]==va&&tri3p[1]==vb||
-		tri3p[1]==va&&tri3p[2]==vb||
-		tri3p[2]==va&&tri3p[0]==vb)
+	if((tri3p[0]==va&&tri3p[1]==vb)||
+	   (tri3p[1]==va&&tri3p[2]==vb)||
+	   (tri3p[2]==va&&tri3p[0]==vb))
 		return true;
 	else
 		return false;
