@@ -1871,6 +1871,10 @@ void PolyQuadtree::freeSubQuadtree(CellNode2D *pcell){
 	for(int i=0; i<4; i++)
 		freeSubQuadtree(pcell->child[i]);
 	delete pcell;
+	// JMM : 8/3/2014 : This shouldn't be necessary, since
+	// pcell shouldn't be used after it is deleted.
+	// But set pcell to 0 after deleting just in case.
+    pcell=0;
 }
 
 CellNode2D ::CellNode2D(double bd[4]){
@@ -1938,11 +1942,19 @@ void PIP2D_jianfei_cpp(double *vertices, int *numV,
 
     // Loop over queries, feed them to the Jianfei method.
     // Don't forget about the minX, minY, and minZ shifts.
+    //
+    // JMM (8/3/2014): Use TRY-CATCH to catch computational
+    // errors and set RESULT[I] accordingly.
     double q[2]={0,0};
     for( i=0; i<(*numQ); i++) {
-        q[0]      = query[i+0*(*numQ)] - minX;
-        q[1]      = query[i+1*(*numQ)] - minY;
-        result[i] = ptpoly->isPinpolygon(q);
+        q[0] = query[i+0*(*numQ)] - minX;
+        q[1] = query[i+1*(*numQ)] - minY;
+        try {
+            result[i] = ptpoly->isPinpolygon(q);
+        }
+        catch (...) {
+            result[i] = -8;
+        }
     }
 
     // RELEASE MEMORY!!

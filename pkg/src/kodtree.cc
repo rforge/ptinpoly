@@ -447,6 +447,10 @@ void Kodtree::freeSubTree(CellNode3D *pcell){
 	for(int i=0; i<2; i++)
 		freeSubTree(pcell->child[i]);
 	delete pcell;
+	// JMM : 8/3/2014 : This shouldn't be necessary, since
+	// pcell shouldn't be used after it is deleted.
+	// But set pcell to 0 after deleting just in case.
+    pcell=0;
 }
 
 
