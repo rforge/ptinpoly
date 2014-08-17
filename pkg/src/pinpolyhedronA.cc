@@ -268,6 +268,7 @@ void PointInPolyhedron::getTheClosestTriAmongCell(double p[3],CellNode3D *pcell,
 		int tri0,tri;
 		tri0=tri=triofnode[v];
 		do{
+            if(tri < 0) throw(7); /* JMM : 8/17/2014 : Fix Seg Fault as per B. Ripley and J. Liu */
 //			if(triused[tri]==1) continue;
 //			else triused[tri]=1;
 			getEndPointOfTri(tri,p0,p1,p2);
@@ -442,7 +443,7 @@ int PointInPolyhedron::classifyVert(double p[3],int vert){
 
 	getVertsAroundaVert(vert,neighbverts,numbv);
 	getThePointFormingLeastAngleWith2Points(p,vert,neighbverts,numbv,maxcosa,vertridge);
-	delete neighbverts;
+	delete [] neighbverts; /* JMM : 8/17/2014 : Fix Seg Fault as per B. Ripley */
 	if(maxcosa>epscoplanar)
 	//{
 	//	get2TriCom2Vert(vert,vertridge,tria,trib);

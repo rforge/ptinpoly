@@ -822,6 +822,7 @@ void sort1ShellFromaTri(int tri,double (*vertcoord)[3],int numvert,int (*trips)[
 		for(int i=0;i<3;i++){
 			if(tneighb[ctri][i]>=0) continue;
 			int tnb=getNeighbTriWithoutTopology(trips,ctri,i);
+            if(tnb < 0) throw(7);  /* JMM : 8/17/2014 : Fix Seg Fault as per B. Ripley and J. Liu */
 			if(trisort[tnb]==0){
 				if(!triSortAs2Nodes(trips[tnb],trips[ctri][(i+2)%3],trips[ctri][(i+1)%3]))
 					swap(trips[tnb][0],trips[tnb][1]);
