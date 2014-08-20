@@ -777,6 +777,11 @@ void PIP3D_jianfei_cpp(double *vertices, int *numV,
             vert[i][1] += minY;
             vert[i][2] += minZ;
         }
+
+        // RELEASE MEMORY!!
+        delete [] tris;
+        delete [] vert;
+        if ( ptpoly != 0 ) delete ptpoly;
         return;
     }
 
@@ -1938,6 +1943,11 @@ void PIP2D_jianfei_cpp(double *vertices, int *numV,
             vert[i][0] += minX;
             vert[i][1] += minY;
         }
+
+        // RELEASE MEMORY!!
+        delete [] vert;
+        if ( ptpoly != 0 ) delete ptpoly;
+
         return;
     }
 
