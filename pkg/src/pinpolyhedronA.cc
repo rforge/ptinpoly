@@ -361,16 +361,13 @@ PointInPolyhedron::PointInPolyhedron(double (*vti)[3], int numvi,int (*tris)[3],
 //	epsilonon=epsion;
 
 	numvert=numvi;
-//  vertcoord=(double (*)[3]) new double[3*numvert];
-	vertcoord = new double[numvert] [3];
+	vertcoord=(double (*)[3]) new double[3*numvert];
 	memcpy(vertcoord,vti,sizeof(double)*3*numvert);
 	numtri=numti;
-//  trips=(int (*)[3])new int[3*numtri];
-	trips = new int[numtri] [3];
+	trips=(int (*)[3])new int[3*numtri];
 	memcpy(trips, tris,sizeof(int)*3*numtri);
 
-//  tneighb=(int (*)[3]) new int [3*numtri];
-	tneighb = new int[numtri] [3];
+	tneighb=(int (*)[3]) new int [3*numtri];
 	triofnode=(int *) new int[numvert];
 	vertattrib= new int [numvert];
 	for(int i=0; i<numvert; i++)
@@ -727,8 +724,7 @@ void PIP3D_jianfei_cpp(double *vertices, int *numV,
 //Rprintf("PIP_jianfei_cpp: entered C++ function.\n");
 	// Transfer vertex data from flat double array to double[3] array.
 	double (*vert)[3];
-//  vert = ( double (*)[3]) new double [3*(*numV)];
-	vert = new double[*numV] [3];
+	vert = ( double (*)[3]) new double [3*(*numV)];
 #if 0
 	double minX = DLB_MAX, minY=DBL_MAX, minZ=DBL_MAX;
 #else
@@ -755,8 +751,7 @@ void PIP3D_jianfei_cpp(double *vertices, int *numV,
  	// Transfer face data from flat int array to int[3] array.
  	// Decrement vertex indices by 1, since Jianfei's code starts indexing at 0.
 	int (*tris)[3];
-//  tris = (int (*)[3]) new int [3*(*numF)];
-	tris = new int[*numF] [3];
+    tris = (int (*)[3]) new int [3*(*numF)];
     for( i=0; i<(*numF); i++) {
         tris[i][0] = faces[i+0*(*numF)] - 1;
         tris[i][1] = faces[i+1*(*numF)] - 1;
@@ -1909,8 +1904,7 @@ void PIP2D_jianfei_cpp(double *vertices, int *numV,
 //Rprintf("PIP_jianfei_cpp: entered C++ function.\n");
 	// Transfer vertex data from flat double array to double[3] array.
 	double (*vert)[2];
-//  vert = ( double (*)[2]) new double [2*(*numV)];
-	vert = new double[*numV] [2];
+	vert = ( double (*)[2]) new double [2*(*numV)];
 #if 0
 	double minX = DLB_MAX, minY=DBL_MAX;
 #else

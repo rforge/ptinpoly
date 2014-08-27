@@ -86,7 +86,7 @@ data(queries)
 # Test whether each point in 'queries' is contained in
 # the simple cube defined by 'verts' and 'faces'.
 # This should return "1  0  0  0 -1".
-containment = pip3d(verts,faces,queries);
+containment <- pip3d(verts,faces,queries);
 
 #-------------------------------------------
 # Torus example.
@@ -118,14 +118,15 @@ Queries <- as.matrix(X)
 
 # Check whether test points are contained in the torus.
 # Most of these points will lie outside the torus.
-containment = pip3d(Vertices,Faces,Queries);
+containment <- pip3d(Vertices,Faces,Queries);
 
 #-------------------------------------------
 # If you remove one of the faces of the cube, the resulting cube
 # becomes "leaky".  Running 'pip3d' on the resulting defective
 # polyhedron will return -2.
-
-badcube     = faces[1:11,]
-containment = pip3d(verts,badcube,queries);
+# NOT RUN
+#
+# badcube     <- faces[1:11,]
+# containment <- pip3d(verts,badcube,queries);
 }
 \keyword{methods}

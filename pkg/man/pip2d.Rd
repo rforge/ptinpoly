@@ -69,8 +69,8 @@ queries <- as.matrix(X)
 
 # Check whether test points are contained in the comb, spiral, and factal.
 # Most of these points will lie outside the polygons.
-containment1 = pip2d(comb,queries);
-containment2 = pip2d(spiral,queries);
-containment3 = pip2d(fractal,queries);
+containment1 <- pip2d(comb,queries);
+containment2 <- pip2d(spiral,queries);
+containment3 <- pip2d(fractal,queries);
 }
 \keyword{methods}
