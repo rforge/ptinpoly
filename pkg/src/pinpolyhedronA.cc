@@ -590,8 +590,8 @@ void PointInPolyhedron::getThePointFormingLeastAngleWith2Points(double p[3],int 
 		vec_2p(pv,vertcoord[nbverts[i]],pvpi);
 		vec_uni(pvpi);
 		if((dp=vec_dotp(pvpi,pvp))>maxcosa){
-			if(dp>epscoplanar)
-				dp=dp;
+//			if(dp>epscoplanar)
+//				dp=dp;
 			maxcosa=dp;
 			vridge=nbverts[i];
 		}
@@ -1762,8 +1762,8 @@ void PolyQuadtree::compVertattrib(void){
 	for(int i=0 ;i<numvert; i++){
 		int vf=seg2end[v2seg[i][0]][0];
 		int vb=seg2end[v2seg[i][1]][1];
-		if(i==11821) 
-			i=i;
+//		if(i==11821) 
+//			i=i;
 		vertattrib[i]=-convexityOf3Point(vert[vf],vert[i],vert[vb],epscoplanar);
 	}
 }
