@@ -9,7 +9,6 @@ Description: Function pip3d() tests whether a point in 3D space is
   Function pip2d() tests whether a point in 2D space is within, exactly on, or outside a polygon.
   For a reference, see: Liu et al., A new point containment test algorithm based on preprocessing
   and determining triangles, Computer-Aided Design 42(12):1143-1150.
-  <doi:10.org/10.1016/j.cad.2010.08.002>
 License: GPL-2
 LazyLoad: yes
 Depends: misc3d
