@@ -1,12 +1,15 @@
 Package: ptinpoly
 Title: Point-In-Polyhedron Test (2D and 3D)
 Version: 2.5
-Date: 2020-16-05
+Date: 2020-05-18
 Author: Jose M. Maisog, Yuan Wang, George Luta, Jianfei Liu
 Maintainer: Jose M. Maisog <bravas02@gmail.com>
-Description: Function 'pip3d' tests whether a point in 3D space is
+Description: Function 'pip3d()' tests whether a point in 3D space is
   within, exactly on, or outside an enclosed surface defined by a triangular mesh.
-  Function 'pip2d' tests whether a point in 2D space is within, exactly on, or outside a polygon.
+  Function 'pip2d()' tests whether a point in 2D space is within, exactly on, or outside a polygon.
+  Reference: Liu et al., A new point containment test algorithm based on preprocessing
+  and determining triangles, Computer-Aided Design 42(12):1143-1150.
+  https://doi.org/10.1016/j.cad.2010.08.002
 License: GPL-2
 LazyLoad: yes
 Depends: misc3d
