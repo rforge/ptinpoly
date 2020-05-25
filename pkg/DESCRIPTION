@@ -1,6 +1,6 @@
 Package: ptinpoly
 Title: Point-in-Polyhedron Test (2D and 3D)
-Version: 2.51
+Version: 2.6
 Date: 2020-05-25
 Author: Jose M. Maisog, Yuan Wang, George Luta, Jianfei Liu
 Maintainer: Jose M. Maisog <bravas02@gmail.com>
