@@ -61,7 +61,8 @@ public:
 		checkAndMergeSubTreeAfterDelete(p,root);
 		return true;
 	}
-	WpInfo * insertExinfo(void *info,int infotype){
+	// JMM (5/26/2020): Change void to int...
+	WpInfo * insertExinfo(int *info,int infotype){
 		WpInfo *nwinf=new WpInfo(info,infotype);
 		insertWpInfoInSubTree(nwinf,root);
 		if(nwinf->rcount==0){

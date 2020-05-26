@@ -57,7 +57,9 @@ void PointInPolyhedron::wrapPointsUpasVerts(void  ** &vti){
 
 	vti=new void *[numvert];
 	for(int i=0; i<numvert; i++)
-		vti[i]=startaddress+i;
+		// JMM (5/26/2020): Cast void** to int ** before dereferencing it (because startaddress is int*).
+		*((int **)vti+i))=startaddress+i;
+		//vti[i]=startaddress+i;
 }
 
 bool   PointInPolyhedron::ifexinfooverlapbox(void *info,int infotype,const Box &bd,double eps){
@@ -381,6 +383,7 @@ PointInPolyhedron::PointInPolyhedron(double (*vti)[3], int numvi,int (*tris)[3],
     polytree->setFuncExinfoShouldbeInCell(ifexinfoshouldbeincell);
 	polytree->setFuncExinfoOverlapBox(ifexinfooverlapbox);
 	for(int i=0; i<numtri; i++)
+		// JMM (5/26/2020): the first argument of insertExinfo has been changed to int* in kodtree.h
 		polytree->insertExinfo(i+startaddress,1);
 	setGCellAttribOfSubTree(polytree->getRoot());
 	//triused=new int[numtri];
