@@ -58,7 +58,7 @@ void PointInPolyhedron::wrapPointsUpasVerts(void  ** &vti){
 	vti=new void *[numvert];
 	for(int i=0; i<numvert; i++)
 		// JMM (5/26/2020): Cast void** to int ** before dereferencing it (because startaddress is int*).
-		*((int **)vti+i))=startaddress+i;
+		*((int **)vti+i)=startaddress+i;
 		//vti[i]=startaddress+i;
 }
 
