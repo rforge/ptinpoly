@@ -30,8 +30,10 @@ int PointInPolyhedron:: numvert;
 int (*PointInPolyhedron::trips)[3];
 int PointInPolyhedron::numtri;
 int absolute;
-//int *startaddress=(int *)1;
-int *startaddress=0;
+// JMM (5/26/2020): Switch to initializing *startaddress to 1 rather than 0.
+// Reference: email from J. Liu sent 5/30/2020 at 10:59 PM EST
+int *startaddress=(int *)1;
+//int *startaddress=0;
 extern int positionOfPointProjectToTri(double p[3],double p0[3],double p1[3],double p2[3]);
 extern double sqDistPointToTri(double p[3],double p0[3],double p1[3],double p2[3]);
 extern double sqDistPointToSeg3D(double p[3],double p0[3],double p1[3]);
